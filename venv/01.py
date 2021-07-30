@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import re
 import csv
+import pandas as pd
+from pandas import DataFrame
 
 # setting up the environment and getting the web page raddy to scrap
 # from experimentat import race_status
@@ -28,10 +30,13 @@ while True:
     # print(race_list)
 
     # because the list is in the second element it had to be separated and then use re library to select each event
-    race_list = race_list[2].split()
-    scheduled_hours = [i for i in race_list if re.search(r'\d\d:\d\d', i)]
-    events = scheduled_hours[:7]  # only 10 events
-    # print(events)
+    try:
+        race_list = race_list[2].split()
+        scheduled_hours = [i for i in race_list if re.search(r'\d\d:\d\d', i)]
+        events = scheduled_hours[:7]  # only 10 events
+        # print(events)
+    except:
+        "IndexError: list index out of range"
     
     # preparing each event for the scrap: obtaining the sum that it's been bet on the event, the title and the buttons
     race_title = []
@@ -148,16 +153,40 @@ while True:
             favorite_jokey_name = jockey_names_list[quotes_final_against.index(favorite_index)]
             print(favorite_jokey_name)
 
-            list01 = list(csv.reader(open('output_races.csv', 'r')))
-            last_five_rows = list01[-5:]
-            if [venue_date_final01, venue_time, venue_name_final01, venue_country, favorite_jokey_name] in last_five_rows:
-                pass
-            else:
-                output_races = open('output_races.csv', 'a+', newline='')
-                output_writer = csv.writer(output_races)
-                output_writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
+            # list01 = list(csv.reader(open('output_races.csv', 'r')))
+            # last_five_rows = list01[-5:]
 
-                output_races.close()
+            header_list = ['Date', 'Hour', 'Race', 'Country', 'Money bet', 'Against odds', 'Jokey']
+            list_df = pd.read_csv('output_races.csv', names=header_list)
+            final_dataframe = DataFrame(list_df)
+            # print(final_dataframe)
+
+            last_seven_positions = final_dataframe[-10:]
+
+            for i in range(1):
+                # len(last_seven_positions)
+                if venue_time == last_seven_positions.iloc[i][1] and venue_name == last_seven_positions.iloc[i][2]:
+                    pass
+                # hour_comparison = (venue_time == last_seven_positions.iloc[i][1])
+                # race_comparison = (venue_name == last_seven_positions.iloc[i][2])
+                # if hour_comparison and race_comparison:
+
+                    # print('in list')
+                else:
+                    output_races = open('output_races.csv', 'a+', newline='')
+                    output_writer = csv.writer(output_races)
+                    output_writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
+                    output_races.close()
+
+
+            # if [venue_date_final01, venue_time, venue_name_final01, venue_country, favorite_jokey_name] in last_five_rows:
+            #     pass
+            # else:
+            #     output_races = open('output_races.csv', 'a+', newline='')
+            #     output_writer = csv.writer(output_races)
+            #     output_writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
+            #
+            #     output_races.close()
         else:
             pass
 
