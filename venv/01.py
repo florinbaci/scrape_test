@@ -8,7 +8,6 @@ import pandas as pd
 from pandas import DataFrame
 
 # setting up the environment and getting the web page raddy to scrap
-# from experimentat import race_status
 
 driver = webdriver.Chrome('C:/Users/User/AppData/Local/Programs/Python/Python38/Scripts/chromedriver.exe')
 driver.maximize_window()
@@ -17,11 +16,10 @@ driver.get(url)
 
 # print(driver.page_source)
 
-# driver.implicitly_wait(10)
 
 while True:
 
-    # get the list of events
+    # get the list of events and some other tabs from the page
     race_list = []
     races_class = WebDriverWait(driver, 30).until(ec.presence_of_all_elements_located((By.CLASS_NAME, "node")))
     for race in races_class:
@@ -30,6 +28,12 @@ while True:
     # print(race_list)
 
     # because the list is in the second element it had to be separated and then use re library to select each event
+    # the re library is to select only te time "tag", the rest of the elements don't have the hour pattern
+    # THINGS TO SOLVE IN HERE:
+    # SOMETIMES THE PAGE DOESEN'T LOAD PROPERLY AND FOR THIS REASON CAN'T FIND THE SECOND ELEMENT
+    # THERE IS TRY AND EXCEPT BUT DOESEN'T WORK PROPERLY, WHEN CAN'T FIND THE SECOND ELEMENT
+    # THE PROBLEM GOES DOWN TO THE NEXT STATEMENT AND GIVES AN ERROR BECAUSE IT CAN'T FIND THE EVENTS
+    # VARIABLE
     try:
         race_list = race_list[2].split()
         scheduled_hours = [i for i in race_list if re.search(r'\d\d:\d\d', i)]
@@ -39,6 +43,11 @@ while True:
         "IndexError: list index out of range"
     
     # preparing each event for the scrap: obtaining the sum that it's been bet on the event, the title and the buttons
+    # obtaining all the links from the horse racing page
+    # PROBLEM TO BE DEALT WITH:
+    # WHEN IT LOOPS THROUGH ALL THE LINKS, IT TAKES THOSE RACEAS WITH THE SAME NAMES THAT ARE A DAY APART
+    # FOR NOW THIS ISN'T A PROBLEM BEACUSE THE RACEAS THAT ARE ON THE NEXT DAY DON'T MEET THE REQUIREMENT
+    # OF HAVING THE TOTAL SUM OF MONEY OVER 5000 LEI, BUT JUST A SMALL BUG TO HAVE IN MIND
     race_title = []
     race_link = []
     for event in events:
@@ -51,7 +60,10 @@ while True:
     # for link in race_link:
     #     print(link)
 
-
+    # find the race winner
+    # HERE IS A DELAY IMPLEMENTED, AFTER EACH ROW CHECKED WAITS 5 SEC FOR THE JOKEY TO BE
+    # IDENTIFIED, SO SAY IF THE WINNER IS AT POSITION 5, IT WILL TAKE 20 TO 25 SEC GET
+    # THE CORECT ANSWER
     def race_finished():
         jockey_names = WebDriverWait(driver, 30).until(ec.presence_of_all_elements_located((By.CLASS_NAME, "name")))
         jockey_names_list = []
@@ -83,7 +95,12 @@ while True:
         print(venue_name_final)
         print(winner_final)
 
-
+    # this function takes the raceas that meet the requirements
+    # IN HERE SHOULD BE THE "PRESSING OF THE BUTTONS ACTION"
+    # AFTER ALL CONDITIONS ARE CHECKED TO PLACE THE BET AND CALCULATE IF IT DOES HAVE TO
+    # INCREASE THE MONEY THAT HAVE TO BE PALCED ON A BET OR CO REVERSE TO THE "BASE"
+    # FOR NOW THIS COME SECOND ORDER OF IMPORTANCE DUE TO THE FACT THE WE WANT TO TEST
+    # THE HYPOTESIS FIRST
     def race_to_start():
         jockey_names = WebDriverWait(driver, 30).until(ec.presence_of_all_elements_located((By.CLASS_NAME, "name")))
         jockey_names_list = []
@@ -163,7 +180,11 @@ while True:
 
             last_seven_positions = final_dataframe[-10:]
 
-            for i in range(1):
+            # no aici ma impotmolesc big time, am crezut aseara ca am gasit pb, insa nu merge
+            # trebuie sa compar ora de start si numele cursei daca sunt in csv
+            # daca sunt in csv, sare peste, in caz contrar le scrie in csv
+
+            for i in last_seven_positions:
                 # len(last_seven_positions)
                 if venue_time == last_seven_positions.iloc[i][1] and venue_name == last_seven_positions.iloc[i][2]:
                     pass
@@ -171,7 +192,7 @@ while True:
                 # race_comparison = (venue_name == last_seven_positions.iloc[i][2])
                 # if hour_comparison and race_comparison:
 
-                    # print('in list')
+                    print('in list')
                 else:
                     output_races = open('output_races.csv', 'a+', newline='')
                     output_writer = csv.writer(output_races)
