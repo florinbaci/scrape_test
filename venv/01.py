@@ -184,7 +184,7 @@ while True:
             # trebuie sa compar ora de start si numele cursei daca sunt in csv
             # daca sunt in csv, sare peste, in caz contrar le scrie in csv
 
-            for i in last_seven_positions:
+            for i in range(1):
                 # len(last_seven_positions)
                 if venue_time == last_seven_positions.iloc[i][1] and venue_name == last_seven_positions.iloc[i][2]:
                     pass

@@ -14,8 +14,8 @@ last_seven_positions = final_dataframe[-10:]
 # print(last_seven_positions.iloc[-1][2])
 # print(last_seven_positions.iloc[0][2])
 
-for i in last_seven_positions:
-    if last_seven_positions.iloc[0][2] in last_seven_positions:
+for i in range(len(last_seven_positions)):
+    if last_seven_positions.iloc[0][2] in last_seven_positions.iloc[i][2]:
         # pass
         print('in list')
     else:
