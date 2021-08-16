@@ -170,35 +170,64 @@ while True:
             favorite_jokey_name = jockey_names_list[quotes_final_against.index(favorite_index)]
             print(favorite_jokey_name)
 
-            list01 = list(csv.reader(open('output_races.csv', 'r')))
-            last_five_rows = list01[-5:]
+            df = DataFrame(pd.read_csv('data.csv'), columns=['index', 'date', 'hour', 'race', 'country', 'money', 'against_odds', 'jokey'])
+            last_seven_positions = df[-7:]
 
-            header_list = ['Date', 'Hour', 'Race', 'Country', 'Money bet', 'Against odds', 'Jokey']
-            list_df = pd.read_csv('output_races.csv', names=header_list)
-            final_dataframe = DataFrame(list_df)
+            if ((last_seven_positions['hour'] == venue_time) & (last_seven_positions['race'] == venue_name_final01)).any():
+                pass
+            else:
+                df = df.append({'date':venue_date_final01,
+                                'hour': venue_time,
+                                'race': venue_name_final01,
+                                'country': venue_country,
+                                'money': venue_total_sum,
+                                'against_odds': favorite_index,
+                                'jokey': favorite_jokey_name},
+                               ignore_index=True)
+                df.to_csv('data.csv')
+        else:
+            pass
+
+
+
+
+
+
+
+
+                # for events_checked in last_seven_positions:
+                # if ((last_seven_positions['Hour'] == venue_time) & (last_seven_positions['Race'] == venue_name_final01)).any():
+                #     pass
+                # else:
+                #     writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
+                    # break
+
+
+            # list01 = csv.reader(open('output_races.csv', 'r'))
+            # list(csv.reader(open('output_races.csv', 'r')))
+            # last_five_rows = list01[-5:]
+
+            # header_list = ['Date', 'Hour', 'Race', 'Country', 'Money bet', 'Against odds', 'Jokey']
+            # list01 = pd.read_csv('output_races.csv', names=header_list)
+            # final_dataframe = DataFrame(list_01)
             # print(final_dataframe)
 
-            last_seven_positions = final_dataframe[-7:]
+            # last_seven_positions = final_dataframe[-7:]
             # print(last_seven_positions)
             # no aici ma impotmolesc big time, am crezut aseara ca am gasit pb, insa nu merge
             # trebuie sa compar ora de start si numele cursei daca sunt in csv
             # daca sunt in csv, sare peste, in caz contrar le scrie in csv
 
-            # for i in range(1):
-                # len(last_seven_positions)
-                # if venue_time in last_seven_positions.iloc[i][1] and venue_name in last_seven_positions.iloc[i][2]:
-                #     pass
-                # hour_comparison = (venue_time == last_seven_positions.iloc[i][1])
-                # race_comparison = (venue_name == last_seven_positions.iloc[i][2])
-                # if hour_comparison and race_comparison:
-            if ((last_seven_positions['Hour'] == venue_time) & (last_seven_positions['Race'] == venue_name)).any():
-                pass
-                # print('in list')
-            else:
-                output_races = open('output_races.csv', 'a+', newline='')
-                output_writer = csv.writer(output_races)
-                output_writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
-                output_races.close()
+            # for events_checked in last_seven_positions:
+            #     if ((last_seven_positions['Hour'] == venue_time) & (last_seven_positions['Race'] == venue_name_final01)).any():
+            #         pass
+            #         # print('in list')
+            #     else:
+            #         output_races = open('output_races.csv', 'a+', newline='')
+            #         output_writer = csv.writer(output_races)
+            #         output_writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
+            #         output_races.close()
+            #     break
 
 
 
@@ -210,8 +239,8 @@ while True:
             #     output_writer.writerow([venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
             #
             #     output_races.close()
-        else:
-            pass
+        # else:
+        #     pass
 
     # break
 

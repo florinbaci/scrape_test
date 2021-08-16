@@ -2,28 +2,77 @@ import pandas as pd
 import csv
 from pandas import DataFrame
 
-# csv_file = csv.reader(open('output_races.csv', "r"), delimiter=",")
-
-header_list = ['Date', 'Hour', 'Race', 'Country', 'Money bet','Against odds', 'Jokey']
-list_df = pd.read_csv('output_races.csv', names=header_list)
-final_dataframe = DataFrame(list_df)
-# print(final_dataframe)
-tail_pos = final_dataframe[-7:]
-
-ev_time = tail_pos.iloc[-5][1]
-ev_race = tail_pos.iloc[-5][2]
+# with open('data.csv', 'a+', newline='') as f:
+df = DataFrame(pd.read_csv('data.csv'), columns=['date', 'hour', 'race', 'country', 'money', 'against_odds', 'jokey'])
+#     print(df)
+# df = pd.read_csv('data.csv')
+# print(df)
+    # , names = header_list
+last_seven_positions = df[-7:]
+# print(last_seven_positions)
 
 x = 0
-while 7 > x:
+while x < 10:
 
-    if ((tail_pos['Hour'] == ev_time) & (tail_pos['Race'] == ev_race)).any():
-      pass
-      # print('is in')
+    date_01 = '25 Aug'
+    hour = '08:28'
+    race = "['Cairo']"
+    country = '(Egipt)'
+    money = '5807'
+    against_odds = '3.8'
+    jokey = "White Rhino\nGeorge"
+
+    # for i in range(len(last_seven_positions)):
+    if ((last_seven_positions['hour'] == hour) & (last_seven_positions['race'] == race)).any():
+        pass
     else:
-      print('not in')
-    # break
+        df = df.append({'date': date_01,
+                        'hour': hour,
+                        'race': race,
+                        'country': country,
+                        'money': money,
+                        'against_odds': against_odds,
+                        'jokey': jokey},
+                       ignore_index=True)
+        df.to_csv('data.csv')
+    break
 
-    x += 1
+print(df)
+
+    # x += 1
+# df.to_csv('data.csv')
+
+# with open('output_races.csv', 'a+', newline='') as csvfile:
+#     writer = csv.writer(csvfile, delimiter=',')
+    # df = DataFrame('output_races.csv', columns=['Date', 'Hour', 'Race', 'Country', 'Money bet', 'Against odds', 'Jokey'])
+    # df_final = pd.read_csv('output_races.csv', names=header_list)
+    # last_seven_positions = df_final[-7:]
+    
+    # writer.writerow(['07:26', 'Here'])
+
+# print(last_seven_positions)
+# csv_file = csv.reader(open('output_races.csv', "r"), delimiter=",")
+
+# header_list = ['Date', 'Hour', 'Race', 'Country', 'Money bet','Against odds', 'Jokey']
+# list_df = pd.read_csv('output_races.csv', names=header_list)
+# final_dataframe = DataFrame(list_df)
+# # print(final_dataframe)
+# tail_pos = final_dataframe[-7:]
+#
+# ev_time = tail_pos.iloc[-5][1]
+# ev_race = tail_pos.iloc[-5][2]
+#
+# x = 0
+# while 7 > x:
+#
+#     if ((tail_pos['Hour'] == ev_time) & (tail_pos['Race'] == ev_race)).any():
+#       pass
+#       # print('is in')
+#     else:
+#       print('not in')
+#     # break
+#
+#     x += 1
 
 # for row in csv_file:
 #     #if current rows 2nd value is equal to input, print that row
