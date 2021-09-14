@@ -1,45 +1,126 @@
-import pandas as pd
-import csv
-from pandas import DataFrame
+# import pandas as pd
+# import csv
+# from pandas import DataFrame
+import sqlite3
+
+def race_data():
+  date_01 = '10 SEPT'
+  hour = '07:30'
+  race = "['Swan', 'Hill']"
+  country = '(AUS)'
+  money = '175487'
+  against_odds = '4.0'
+  jokey = "Broadway Lane\nJarrod Fry"
+
+  # individual_race = [date_01, hour, race, country, money, against_odds, jokey]
+  return date_01, hour, race, country, money, against_odds, jokey
+
+# def race_data():
+#   date_01 = '10 SEPT'
+#   hour = '07:30'
+#   race = "['Swan', 'Hill']"
+#   country = '(AUS)'
+#   money = '175487'
+#   against_odds = '4.0'
+#   jokey = "Broadway Lane\nJarrod Fry"
+#
+#   individual_race = [date_01, hour, race, country, money, against_odds, jokey]
+#   return date_01, hour, race, country, money, against_odds, jokey
+  # print(date_01, hour, race, country, money, against_odds, jokey)
+  # print(individual_race)
+
+print(race_data())
+# race_f = race_data('1 SEPT', '08:30', "['Swan', 'Hill']", '(AUS)', '175487', '4.0', "Broadway Lane\nJarrod Fry")
+# print(race_f)
+
+# Connect to database
+# db = sqlite3.connect('ex02.db')
+
+#Create a cursor
+# cur = db.cursor()
+
+#Create a table
+# cur.execute("""CREATE TABLE IF NOT EXISTS ex01(
+#            Data text NOT NULL,
+#            Hour text NOT NULL,
+#            Race text NOT NULL,
+#            Country text NOT NULL,
+#            Money integer NOT NULL,
+#            Against_odds real NOT NULL,
+#            Jokey text NOT NULL)""")
+
+# Search into DB for the event and update table
+#
+# cur.execute("""INSERT INTO ex02(Data, Hour, Race, Country, Money, Against_odds, Jokey)
+#             VALUES(?,?,?,?,?,?,?)""", individual_race)
+
+# cur.execute("""UPDATE ex01(Data, Hour, Race, Country, Money, Against_odds, Jokey)
+#             VALUES(date_01, hour, race, country, money, against_odds, jokey)""")
+
+# cur.execute('SELECT * FROM ex02')
+
+# cur.execute("SELECT * FROM ex WHERE name = 'NEXT'")
+# items = cur.fetchall()
+
+# for item in items:
+#   print(item)
+
+# for item in cur.fetchall():
+#   print(item[1])
+  # if item[1]:
+  #   print('in')
+# print(cur.fetchall())
+
+
+# db.commit()
+# db.close()
+
+
 
 # with open('data.csv', 'a+', newline='') as f:
-df = DataFrame(pd.read_csv('data.csv'), columns=['date', 'hour', 'race', 'country', 'money', 'against_odds', 'jokey'])
+# df = DataFrame(pd.read_csv('data.csv'))
 #     print(df)
 # df = pd.read_csv('data.csv')
 # print(df)
     # , names = header_list
-last_seven_positions = df[-7:]
+
 # print(last_seven_positions)
 
-x = 0
-while x < 10:
+# with open('data.csv', 'r', newline='') as csv_file:
+#   del csv_file['Unnamed: 0']
+# date_01 = '26 Aug'
+# hour = '20:52'
+# race = "['Poalata']"
+# country = '(Egipt)'
+# money = '7807'
+# against_odds = '2.1'
+# jokey = "White Rhino\nGeorge"
 
-    date_01 = '25 Aug'
-    hour = '08:28'
-    race = "['Cairo']"
-    country = '(Egipt)'
-    money = '5807'
-    against_odds = '3.8'
-    jokey = "White Rhino\nGeorge"
-
+# x = 0
+# while x < 10:
+#     df = DataFrame(pd.read_csv('data.csv'))
     # for i in range(len(last_seven_positions)):
-    if ((last_seven_positions['hour'] == hour) & (last_seven_positions['race'] == race)).any():
-        pass
-    else:
-        df = df.append({'date': date_01,
-                        'hour': hour,
-                        'race': race,
-                        'country': country,
-                        'money': money,
-                        'against_odds': against_odds,
-                        'jokey': jokey},
-                       ignore_index=True)
-        df.to_csv('data.csv')
-    break
-
-print(df)
-
+    # if ((df.tail()['hour'] == hour) & (df.tail()['race'] == race)).any():
+    #     pass
+    # else:
+    #     df = df.append({'date': date_01,
+    #                     'hour': hour,
+    #                     'race': race,
+    #                     'country': country,
+    #                     'money': money,
+    #                     'against_odds': against_odds,
+    #                     'jokey': jokey},
+    #                     ignore_index=True)
+    #
+    #     df.to_csv('data.csv', index=False)
+        # break
     # x += 1
+# df = df.drop(columns=['Unnamed: 0', 'Unnamed: 0.1'])
+# df.to_csv('data.csv')
+# print(df[['hour', 'race']])
+
+# df['alt'].add((df.index+1)*400)
+
 # df.to_csv('data.csv')
 
 # with open('output_races.csv', 'a+', newline='') as csvfile:
