@@ -4,16 +4,52 @@
 import sqlite3
 
 def race_data():
-  date_01 = '10 SEPT'
-  hour = '07:30'
+  date_01 = '26 SEPT'
+  hour = '10:30'
   race = "['Swan', 'Hill']"
   country = '(AUS)'
   money = '175487'
   against_odds = '4.0'
   jokey = "Broadway Lane\nJarrod Fry"
+  test(date_01, hour, race, country, money, against_odds, jokey)
 
   # individual_race = [date_01, hour, race, country, money, against_odds, jokey]
-  return date_01, hour, race, country, money, against_odds, jokey
+  # return date_01, hour, race, country, money, against_odds, jokey
+
+def test(date_01, hour, race, country, money, against_odds, jokey):
+  # print(date_01, hour, race, country, money, against_odds, jokey)
+
+  # Connect to database
+  db = sqlite3.connect('ex02.db')
+
+  # Create a cursor
+  cur = db.cursor()
+
+  # Create a table
+  # cur.execute("""CREATE TABLE IF NOT EXISTS ex02(
+  #            Data text NOT NULL,
+  #            Hour text NOT NULL,
+  #            Race text NOT NULL,
+  #            Country text NOT NULL,
+  #            Money integer NOT NULL,
+  #            Against_odds real NOT NULL,
+  #            Jokey text NOT NULL)""")
+
+  # Search into DB for the event and update table
+  cur.execute("""INSERT INTO ex02(Data, Hour, Race, Country, Money, Against_odds, Jokey)
+              VALUES(?,?,?,?,?,?,?)""", [date_01, hour, race, country, money, against_odds, jokey])
+
+  # cur.execute("""UPDATE ex02(Data, Hour, Race, Country, Money, Against_odds, Jokey)
+  #             VALUES(?,?,?,?,?,?,?)""", (date_01, hour, race, country, money, against_odds, jokey))
+  #
+  # cur.execute('SELECT * FROM ex02')
+
+
+  db.commit()
+  db.close()
+
+
+race_data()
 
 # def race_data():
 #   date_01 = '10 SEPT'
@@ -29,7 +65,7 @@ def race_data():
   # print(date_01, hour, race, country, money, against_odds, jokey)
   # print(individual_race)
 
-print(race_data())
+# print(race_data())
 # race_f = race_data('1 SEPT', '08:30', "['Swan', 'Hill']", '(AUS)', '175487', '4.0', "Broadway Lane\nJarrod Fry")
 # print(race_f)
 

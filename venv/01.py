@@ -182,84 +182,94 @@ def race_to_start():
         favorite_jokey_name = jockey_names_list[quotes_final_against.index(favorite_index)]
         print(favorite_jokey_name)
 
-        return venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name
-        # race_values = [venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name]
-        # print(race_values)
-
-        # Connect to database
-        db = sqlite3.connect('ex02.db')
-
-        # Create a cursor
-        cur = db.cursor()
-
-        # Create a table
-        # cur.execute("""CREATE TABLE IF NOT EXISTS ex02(
-        #            Data text NOT NULL,
-        #            Hour text NOT NULL,
-        #            Race text NOT NULL,
-        #            Country text NOT NULL,
-        #            Money integer NOT NULL,
-        #            Against_odds real NOT NULL,
-        #            Jokey text NOT NULL)""")
-
-        # Insert races into DB
-        cur.execute("""INSERT INTO ex02(Data, Hour, Race, Country, Money, Against_odds, Jokey)
-                    VALUES(?,?,?,?,?,?,?)""", venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name)
-
-        # Save and close DB
-        db.commit()
-        db.close()
-
-
-
-        # headers = ['Date', 'Hour', 'Race', 'Country', 'Money', 'Against_odds', 'Jokey', 'Race W/L', 'Bank']
-        #
-        # workbook_name = 'data01.xlsx'
-        # # wb = load_workbook(workbook_name)
-        # wb = Workbook()
-        # ws = wb.active
-        # ws.title = "Races"
-        # ws.append(headers)
-
-        # workbook_name = 'data.xlsx'
-        # wb = load_workbook(workbook_name)
-        # ws = wb.active
-        # print(ws.title)
-        # headers = ['Date', 'Hour', 'Race', 'Country', 'Money', 'Against_odds', 'Jokey', 'Race W/L', 'Bank']
-
-
-        # Got empty list - don't know why, maybe some reading of xl problem
-        # race_row = [venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name]
-        # print(race_row)
-        # race_hour_list = []
-        # print(race_hour_list)
-        # race_title_list = []
-        # print(race_title_list)
-
-        # for race_info in range(2, ws.max_row + 1):
-        #     race_hour = ws.cell(row=race_info, column=2).value
-        #     race_title = ws.cell(row=race_info, column=3).value
-        #     # print(race_hour)
-        #     race_hour_list.append(race_hour)
-        #     race_title_list.append(race_title)
-        # print(race_hour_list[-5:])
-        # print(race_title_list[-5:])
-        # print('Loop')
-        # print(venue_time)
-        # print(race_hour_list[-5])
-        # print(venue_name_final01)
-        # print(race_title_list[-5])
-        # print('loop end')
-        # if venue_time not in race_hour_list[-5:] and venue_name_final01 not in race_title_list[-5:]:
-        #     # add the betting button
-        #     print(race_row)
-        #     ws.append(race_row)
-        #     # ws.append(race_row)
-        #
-        #     wb.save(filename=workbook_name)
+        # Calling the Test funtion to write the event in the DB
+        test(venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name)
 
     else:
         pass
+
+# The function that writes the values in the DB
+def test(venue_date_final01, venue_time, venue_name_final01, venue_country,
+         venue_total_sum, favorite_index, favorite_jokey_name):
+
+    # The PROBLEM:
+    # it does sees the variables but for some reason doesen't write them in the DB
+    print(venue_date_final01, venue_time, venue_name_final01, venue_country,
+          venue_total_sum, favorite_index, favorite_jokey_name)
+
+    # Connect to database
+    db = sqlite3.connect('ex02.db')
+
+    # Create a cursor
+    cur = db.cursor()
+
+    # Create a table
+    # cur.execute("""CREATE TABLE IF NOT EXISTS ex02(
+    #            Data text NOT NULL,
+    #            Hour text NOT NULL,
+    #            Race text NOT NULL,
+    #            Country text NOT NULL,
+    #            Money integer NOT NULL,
+    #            Against_odds real NOT NULL,
+    #            Jokey text NOT NULL)""")
+
+    cur.execute("""INSERT INTO ex02(Data, Hour, Race, Country, Money, Against_odds, Jokey)
+                  VALUES(?,?,?,?,?,?,?)""", [venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name])
+
+    # Save and close DB
+    db.commit()
+    db.close()
+
+
+
+    # headers = ['Date', 'Hour', 'Race', 'Country', 'Money', 'Against_odds', 'Jokey', 'Race W/L', 'Bank']
+    #
+    # workbook_name = 'data01.xlsx'
+    # # wb = load_workbook(workbook_name)
+    # wb = Workbook()
+    # ws = wb.active
+    # ws.title = "Races"
+    # ws.append(headers)
+
+    # workbook_name = 'data.xlsx'
+    # wb = load_workbook(workbook_name)
+    # ws = wb.active
+    # print(ws.title)
+    # headers = ['Date', 'Hour', 'Race', 'Country', 'Money', 'Against_odds', 'Jokey', 'Race W/L', 'Bank']
+
+
+    # Got empty list - don't know why, maybe some reading of xl problem
+    # race_row = [venue_date_final01, venue_time, venue_name_final01, venue_country, venue_total_sum, favorite_index, favorite_jokey_name]
+    # print(race_row)
+    # race_hour_list = []
+    # print(race_hour_list)
+    # race_title_list = []
+    # print(race_title_list)
+
+    # for race_info in range(2, ws.max_row + 1):
+    #     race_hour = ws.cell(row=race_info, column=2).value
+    #     race_title = ws.cell(row=race_info, column=3).value
+    #     # print(race_hour)
+    #     race_hour_list.append(race_hour)
+    #     race_title_list.append(race_title)
+    # print(race_hour_list[-5:])
+    # print(race_title_list[-5:])
+    # print('Loop')
+    # print(venue_time)
+    # print(race_hour_list[-5])
+    # print(venue_name_final01)
+    # print(race_title_list[-5])
+    # print('loop end')
+    # if venue_time not in race_hour_list[-5:] and venue_name_final01 not in race_title_list[-5:]:
+    #     # add the betting button
+    #     print(race_row)
+    #     ws.append(race_row)
+    #     # ws.append(race_row)
+    #
+    #     wb.save(filename=workbook_name)
+
+    # else:
+    #     pass
 
 
 
